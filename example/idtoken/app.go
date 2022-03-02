@@ -11,7 +11,6 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/coreos/go-oidc/v3/oidc"
@@ -19,8 +18,10 @@ import (
 )
 
 var (
-	clientID     = os.Getenv("GOOGLE_OAUTH2_CLIENT_ID")
-	clientSecret = os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET")
+	//clientID     = os.Getenv("GOOGLE_OAUTH2_CLIENT_ID")
+	clientID = "dae-app-mrpink"
+	//clientSecret = os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET")
+	clientSecret = "34f1c67d-b63f-4282-ae74-a3f70c8d3c47"
 )
 
 func randString(nByte int) (string, error) {
@@ -45,7 +46,7 @@ func setCallbackCookie(w http.ResponseWriter, r *http.Request, name, value strin
 func main() {
 	ctx := context.Background()
 
-	provider, err := oidc.NewProvider(ctx, "https://accounts.google.com")
+	provider, err := oidc.NewProvider(ctx, "https://keycloak.svc.douban/auth/realms/apps")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -58,7 +59,7 @@ func main() {
 		ClientID:     clientID,
 		ClientSecret: clientSecret,
 		Endpoint:     provider.Endpoint(),
-		RedirectURL:  "http://127.0.0.1:5556/auth/google/callback",
+		RedirectURL:  "http://mrpink.dapps.douban.com/auth/douban/callback",
 		Scopes:       []string{oidc.ScopeOpenID, "profile", "email"},
 	}
 
@@ -79,7 +80,7 @@ func main() {
 		http.Redirect(w, r, config.AuthCodeURL(state, oidc.Nonce(nonce)), http.StatusFound)
 	})
 
-	http.HandleFunc("/auth/google/callback", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/auth/douban/callback", func(w http.ResponseWriter, r *http.Request) {
 		state, err := r.Cookie("state")
 		if err != nil {
 			http.Error(w, "state not found", http.StatusBadRequest)
@@ -135,6 +136,6 @@ func main() {
 		w.Write(data)
 	})
 
-	log.Printf("listening on http://%s/", "127.0.0.1:5556")
-	log.Fatal(http.ListenAndServe("127.0.0.1:5556", nil))
+	log.Printf("listening on http://%s/", "127.0.0.1:80")
+	log.Fatal(http.ListenAndServe("127.0.0.1:80", nil))
 }
