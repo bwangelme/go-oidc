@@ -11,6 +11,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/coreos/go-oidc/v3/oidc"
@@ -18,12 +19,8 @@ import (
 )
 
 var (
-	//clientID     = os.Getenv("GOOGLE_OAUTH2_CLIENT_ID")
-	//clientSecret = os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET")
-	clientID     = "dae-app-mrpink"
-	clientSecret = "34f1c67d-b63f-4282-ae74-a3f70c8d3c47"
-	//clientID     = "679001563900-8ple0025b399qt46a6n6fo6bqaaiqv1o.apps.googleusercontent.com"
-	//clientSecret = "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"
+	clientID     = os.Getenv("GOOGLE_OAUTH2_CLIENT_ID")
+	clientSecret = os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET")
 )
 
 func randString(nByte int) (string, error) {
