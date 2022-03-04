@@ -19,9 +19,11 @@ import (
 
 var (
 	//clientID     = os.Getenv("GOOGLE_OAUTH2_CLIENT_ID")
-	clientID = "dae-app-mrpink"
 	//clientSecret = os.Getenv("GOOGLE_OAUTH2_CLIENT_SECRET")
+	clientID     = "dae-app-mrpink"
 	clientSecret = "34f1c67d-b63f-4282-ae74-a3f70c8d3c47"
+	//clientID     = "679001563900-8ple0025b399qt46a6n6fo6bqaaiqv1o.apps.googleusercontent.com"
+	//clientSecret = "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"
 )
 
 func randString(nByte int) (string, error) {
@@ -136,6 +138,7 @@ func main() {
 		w.Write(data)
 	})
 
-	log.Printf("listening on http://%s/", "127.0.0.1:80")
-	log.Fatal(http.ListenAndServe("127.0.0.1:80", nil))
+	addr := "127.0.0.1:80"
+	log.Printf("listening on http://%s/", addr)
+	log.Fatal(http.ListenAndServe(addr, nil))
 }
